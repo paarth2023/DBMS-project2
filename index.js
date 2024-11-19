@@ -63,7 +63,7 @@ app.get("/profile", async (req, res) => {
     
     if (result.rows.length > 0) {
       const policeman = result.rows[0];
-      res.render("profile.ejs", { policeman });
+      res.render("profile.ejs", { policeman, username:req.user.p_badge });
     } else {
       res.send("Policeman not found.");
     }
