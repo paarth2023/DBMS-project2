@@ -4,6 +4,7 @@ import bodyParser  from "body-parser";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import passport from "passport";
+import { Strategy } from "passport-local";
 const port = 3000;
 const app = express();
 app.use(express.static("public"));
@@ -33,42 +34,10 @@ app.get("/",(req,res)=>{
 app.get("/login", (req, res) => {
   res.render("partials/login.ejs");
 });
-app.post("/login", async (req, res) => {
-  try {
-  const policeBadge = req.body.username;
-  const loginPassword = req.body.password;
-    
-    
-  const checkResult = await db.query("SELECT * FROM police WHERE p_badge = $1", [policeBadge]);
-    
-  if (checkResult.rows.length > 0) {
-    const policeman = checkResult.rows[0];
-    const hashedPassword = policeman.policepassword;
-    bcrypt.compare(loginPassword, hashedPassword, (err, result) => {
-      if (err) {
-        console.log("Error comparing passwords:", err);
-      }
-      else {
-        if (result) {
-          res.render("homepage.ejs", { username: policeBadge });
-        }
-        else {
-          console.log("Input Password:", password);
-          console.log("Stored Password:", storedPassword);
-
-          res.send("Incorrect password");          
-        }
-      }
-    })
-  }
-  else {
-    res.send("Policeman not found");
-  }
-  } catch (error) {
-    console.log(error);
-  }
-
-});
+app.post("/login", passport.authenticate("local", {
+  successRedirect: "/homepage",
+  failureRedirect: "/login"
+}));
 app.get("/logout", (req, res) => {
   res.render("homepage.ejs");
 });
@@ -76,19 +45,22 @@ app.get("/about", (req, res) => {
   res.render("about.ejs");
 })
 app.get("/homepage", (req, res) => {
-  const policeBadge = req.session.policeBadge
   if (req.isAuthenticated()) {
-    res.render("homepage.ejs", { username: policeBadge });
+    res.render("homepage.ejs", { username: req.user.p_badge });
+  } else {
+    res.redirect("/login");
   }
-})
+});
+
 app.get("/profile", async (req, res) => {
   try {
-    const badgeNumber = req.session.policeBadge; // Assuming you stored this in the session during login
-    if (!badgeNumber) {
+    if (!req.isAuthenticated()) {
       return res.redirect("/login"); // Redirect to login if not logged in
     }
 
+    const badgeNumber = req.user.p_badge; // Use req.user for the authenticated user's badge number
     const result = await db.query("SELECT * FROM police WHERE p_badge = $1", [badgeNumber]);
+    
     if (result.rows.length > 0) {
       const policeman = result.rows[0];
       res.render("profile.ejs", { policeman });
@@ -134,6 +106,51 @@ app.post("/register", async (req, res) => {
   }
 });
 
+passport.use(new Strategy(async function verify(username, password, cb) {
+  try {
+    const checkResult = await db.query("SELECT * FROM police WHERE p_badge = $1", [username]);
+    
+    if (checkResult.rows.length > 0) {
+      const policeman = checkResult.rows[0];
+      const hashedPassword = policeman.policepassword;
+      bcrypt.compare(password, hashedPassword, (err, result) => {
+        if (err) {
+          return cb(err);
+        }
+        else {
+          if (result) {
+            return cb(null, policeman);
+          }
+          else {
+            return cb(null, false);
+          }
+        }
+      })
+    }
+    else {
+      return cb("User not found");
+    }
+  } catch (error) {
+    cb(error);
+  }
+  
+}));
+passport.serializeUser((user, cb) => {
+  cb(null, user.p_badge); // Serialize only the badge number
+});
+
+passport.deserializeUser(async (badgeNumber, cb) => {
+  try {
+    const result = await db.query("SELECT * FROM police WHERE p_badge = $1", [badgeNumber]);
+    if (result.rows.length > 0) {
+      cb(null, result.rows[0]); // Attach the full user object
+    } else {
+      cb(new Error("User not found"));
+    }
+  } catch (err) {
+    cb(err);
+  }
+});
 
 app.listen(port,()=>{
   console.log("Server is running on port 3000");
