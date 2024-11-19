@@ -1,0 +1,70 @@
+<%- include("partials/header.ejs") %>
+<head>
+  <link rel="stylesheet" href="styles/homepage.css">
+</head>
+<main class="flex-grow pt-16">
+  <!-- Hero Section -->
+  <section class="relative py-20 overflow-hidden bg-gray-900">
+    <div class="absolute inset-0 z-0">
+      <img src="/placeholder.svg?height=1080&width=1920" alt="Crime scene investigation" class="object-cover w-full h-full">
+      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="text-left">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+            Empowering Law Enforcement with Advanced Technology
+          </h1>
+          <p class="text-xl mb-8 text-gray-300 max-w-2xl">
+            CrimeLink provides cutting-edge tools and data analytics to help law enforcement agencies solve cases faster and keep communities safer.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/get-started" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
+              Get Started
+              <span class="ml-2">→</span>
+            </a>
+            <a href="/demo" class="inline-flex items-center justify-center px-6 py-3 border border-blue-500 text-base font-medium rounded-md text-blue-400 hover:bg-blue-900/30 transition duration-150 ease-in-out">
+              Request a Demo
+            </a>
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="bg-gray-800 p-8 rounded-lg shadow-2xl border border-gray-700">
+            <h2 class="text-2xl font-bold mb-6 text-center text-white">Key Features</h2>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-300">
+                <span class="mr-4 text-blue-500">🔍</span>
+                <span>Advanced search and data analysis</span>
+              </li>
+              <li class="flex items-center text-gray-300">
+                <span class="mr-4 text-blue-500">👥</span>
+                <span>Collaborative case management</span>
+              </li>
+              <li class="flex items-center text-gray-300">
+                <span class="mr-4 text-blue-500">🔒</span>
+                <span>Secure and compliant data handling</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Stories of the Week -->
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center text-white">Success Stories of the Week</h2>
+      <div id="success-stories" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Ongoing Programs -->
+  <section class="py-16 bg-black">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center text-white">Ongoing Programs</h2>
+      <div id="ongoing-programs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+</main>
+  <%- include("partials/footer.ejs") %>

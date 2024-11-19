@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Profile</title>
+</head>
+<body>
+    <h1>Profile Information</h1>
+    <p><strong>Badge Number:</strong> <%= policeman.p_badge %></p>
+    <p><strong>Name:</strong> <%= policeman.policename %></p>
+    <p><strong>Age:</strong> <%= policeman.age %></p>
+    <p><strong>Joining Date:</strong> <%= new Date(policeman.joiningdate).toLocaleDateString() %></p>
+</body>
+</html>
