@@ -1,44 +1,56 @@
 <head>
-  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/header.css" />
 </head>
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-md">
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-md"
+>
   <% if(locals.username){ %>
-      <div class="container mx-auto px-4">
+  <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <a href="/homepage" class="flex items-center space-x-2">
-        <img src="shield-icon.svg" alt="Shield" class="h-8 w-8 text-blue-500">
-        <span  class="text-xl font-bold">CrimeLink</span>
+        <img
+          src="/public/styles/shield-icon.svg"
+          alt="Shield"
+          class="h-8 w-8 text-blue-500"
+        />
+        <span class="text-xl font-bold">CrimeLink</span>
       </a>
 
-    <%} else{ %>
-        <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-16">
-      <a href="/" class="flex items-center space-x-2">
-        <img src="shield-icon.svg" alt="Shield" class="h-8 w-8 text-blue-500">
-        <span  class="text-xl font-bold">CrimeLink</span>
-      </a>
+      <%} else{ %>
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center space-x-2">
+            <img
+              src="/public/styles/shield-icon.svg"
+              alt="Shield"
+              class="h-8 w-8 text-blue-500"
+            />
+            <span class="text-xl font-bold">CrimeLink</span>
+          </a>
 
-      <% } %>
-      <nav>
-        <ul class="flex space-x-4">
-          <% if(locals.username){ %>
-          <div class="dropdown">
-                    <button class="dropbtn"><%= locals.username %></button>
-                    <div class="dropdown-content">
-                        <a href="/profile">Profile</a>
-                        <a href="/Cases">Ongoing cases</a>
-                        <a href="/logout">Logout</a>
-                        
-          </div>
-          <li><a href="/about" class="hover:text-blue-400 transition-colors">About Us</a></li>
-          <%} else{ %>
-            <li><a href="/" class="hover:text-blue-400 transition-colors">Home</a></li>
-            <li><a href="/about" class="hover:text-blue-400 transition-colors">About Us</a></li>
-            <li><a href="/login" class="hover:text-blue-400 transition-colors">Log In</a></li>
-            <% } %>
-        </ul>
-      </nav>
+          <% } %>
+          <nav>
+            <ul>
+              <li><a href="<%= locals.username ? '/homepage' : '/' %>">Home</a></li>
+              <li><a href="/about">About Us</a></li>
+              <% if(locals.username){ %>
+                <li><a href="/Cases">Ongoing Cases</a></li>
+                <li class="dropdown">
+                  <button class="dropbtn"><%= locals.username %></button>
+                  <div class="dropdown-content">
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Logout</a>
+                  </div>
+                </li>
+              <% } else { %>
+                <li><a href="/login" class="nav-btn">Log In</a></li>
+              <% } %>
+            </ul>
+          </nav>
+        </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
