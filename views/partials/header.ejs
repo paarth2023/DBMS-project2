@@ -22,7 +22,7 @@
         <div class="flex items-center justify-between h-16">
           <a href="/" class="flex items-center space-x-2">
             <img
-              src="/public/styles/shield-icon.svg"
+              src="styles/shield-icon.svg"
               alt="Shield"
               class="h-8 w-8 text-blue-500"
             />
@@ -32,9 +32,10 @@
           <% } %>
           <nav>
             <ul>
-              <li><a href="<%= locals.username ? '/homepage' : '/' %>">Home</a></li>
+              
               <li><a href="/about">About Us</a></li>
               <% if(locals.username){ %>
+                <li><a href= "/homepage" >Home</a></li>
                 <li><a href="/Cases">Ongoing Cases</a></li>
                 <li class="dropdown">
                   <button class="dropbtn"><%= locals.username %></button>

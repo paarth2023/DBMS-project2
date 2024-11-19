@@ -42,7 +42,7 @@ app.get("/logout", (req, res) => {
   res.render("homepage.ejs");
 });
 app.get("/about", (req, res) => {
-  res.render("about.ejs");
+  res.render("about.ejs",{username: req.user.p_badge});
 })
 app.get("/homepage", (req, res) => {
   if (req.isAuthenticated()) {
