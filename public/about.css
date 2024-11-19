@@ -1,0 +1,80 @@
+/* Main layout */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #0f172a;
+    color: #ffffff;
+}
+
+/* About Us section styling */
+.about-container {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #ffffff;
+}
+
+/* Sanskrit text styling */
+p:first-of-type {
+    font-size: 1.5rem;
+    color: #60a5fa;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Mission statement styling */
+p:last-of-type {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .about-container {
+        padding: 2rem 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    p:first-of-type {
+        font-size: 1.25rem;
+    }
+
+    p:last-of-type {
+        font-size: 1rem;
+    }
+}
+
+/* Animation for content */
+.about-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Optional hover effects */
+p:first-of-type:hover {
+    color: #93c5fd;
+    transition: color 0.3s ease;
+}
