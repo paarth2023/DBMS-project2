@@ -1,7 +1,3 @@
-<head>
-  <link rel="stylesheet" href="styles/header.css" />
-</head>
-
 <header
   class="fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-md"
 >
@@ -16,7 +12,6 @@
         />
         <span class="text-xl font-bold">CrimeLink</span>
       </a>
-
       <%} else{ %>
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
@@ -28,28 +23,48 @@
             />
             <span class="text-xl font-bold">CrimeLink</span>
           </a>
-
           <% } %>
           <nav>
-            <ul>
-              
+            <ul class="flex items-center space-x-4">
               <li><a href="/about">About Us</a></li>
               <% if(locals.username){ %>
-                <li><a href= "/homepage" >Home</a></li>
-                <li><a href="/Cases">Ongoing Cases</a></li>
-                <li class="dropdown">
-                  <button class="dropbtn"><%= locals.username %></button>
-                  <div class="dropdown-content">
-                    <a href="/profile">Profile</a>
-                    <a href="/logout">Logout</a>
-                  </div>
-                </li>
+              <li><a href="/homepage">Home</a></li>
+              <li class="dropdown relative">
+                <button class="dropbtn">Cases</button>
+                <div
+                  class="dropdown-content absolute hidden bg-gray-800 text-white rounded shadow-md"
+                >
+                  <a href="/mycases" class="block px-4 py-2 hover:bg-gray-700"
+                    >My Cases</a
+                  >
+                  <a href="/top10" class="block px-4 py-2 hover:bg-gray-700"
+                    >Top 10 Most Wanted</a
+                  >
+                </div>
+              </li>
+              <li>
+                <a href="/lodge" class="nav-btn text-yellow-500 font-semibold"
+                  >Lodge a Complaint</a
+                >
+              </li>
+              <li class="dropdown relative">
+                <button class="dropbtn"><%= locals.username %></button>
+                <div
+                  class="dropdown-content absolute hidden bg-gray-800 text-white rounded shadow-md"
+                >
+                  <a href="/profile" class="block px-4 py-2 hover:bg-gray-700"
+                    >Profile</a
+                  >
+                  <a href="/logout" class="block px-4 py-2 hover:bg-gray-700"
+                    >Logout</a
+                  >
+                </div>
+              </li>
               <% } else { %>
-                <li><a href="/login" class="nav-btn">Log In</a></li>
+              <li><a href="/login" class="nav-btn">Log In</a></li>
               <% } %>
             </ul>
           </nav>
-        </div>
         </div>
       </div>
     </div>
