@@ -1,107 +1,106 @@
+<%- include("partials/header.ejs") %>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CrimeLink - Complaint Submission</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #0f172a;
-        color: white;
-        margin: 0;
-        padding: 0;
-      }
-      .navbar {
-        background-color: #0f172a;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .navbar a {
-        color: white;
-        text-decoration: none;
-        margin-left: 20px;
-      }
-      .logo {
-        color: #3b82f6;
-        font-weight: bold;
-        font-size: 1.5em;
-      }
-      .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #1e293b;
-        border-radius: 8px;
-      }
-      h2 {
-        margin-bottom: 20px;
-      }
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 4px;
-        border: none;
-        background-color: #2d3748;
-        color: white;
-      }
-      button {
-        background-color: #3b82f6;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1em;
-        transition: background-color 0.3s;
-      }
-      button:hover {
-        background-color: #2563eb;
-      }
-      .success-message {
-        text-align: center;
-      }
-      .success-message h2 {
-        color: #3b82f6;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="logo">CrimeLink</div>
-      <div>
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Sign In</a>
-      </div>
-    </div>
-    <div class="container">
-      <% if (!submitted) { %>
-      <h2>Submit a Complaint</h2>
-      <form action="/submit-complaint" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea
-          name="complaint"
-          placeholder="Your Complaint"
-          rows="5"
-          required
-        ></textarea>
-        <button type="submit">Submit</button>
-      </form>
-      <% } else { %>
-      <div class="success-message">
-        <h2>Complaint Successfully Lodged</h2>
-        <p>
-          Thank you for your feedback. We will address your complaint as soon as
-          possible.
-        </p>
-      </div>
-      <% } %>
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrimeLink - Complaint Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: #0f172a;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+    .logo {
+      color: #3b82f6;
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #1e293b;
+      border-radius: 8px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: none;
+      background-color: #2d3748;
+      color: white;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container">
+    <h2>Submit a Complaint</h2>
+    <form action="/submit-complaint" method="POST">
+      <label for="complaint_id">Complaint ID:</label>
+      <input type="number" id="complaint_id" name="complaint_id" placeholder="Enter Complaint ID" required>
+      <!-- Address Field -->
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address" maxlength="600" placeholder="Enter your address" required>
+
+      <!-- Date of Complaint Field -->
+      <label for="date_of_complaint">Date of Complaint:</label>
+      <input type="date" id="date_of_complaint" name="date_of_complaint" required>
+
+      <!-- Description Field -->
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" maxlength="600" rows="5" placeholder="Enter a detailed description" required></textarea>
+
+      <!-- Status Field -->
+      <label for="status">Status:</label>
+      <select id="status" name="status" required>
+        <option value="">Select Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Resolved">Resolved</option>
+        <option value="In Progress">In Progress</option>
+      </select>
+
+      <!-- Badge of Assigned Police Field -->
+
+      <!-- Submit Button -->
+      <button type="submit">Submit Complaint</button>
+    </form>
+  </div>
+</body>
 </html>
+<%- include("partials/footer.ejs") %>

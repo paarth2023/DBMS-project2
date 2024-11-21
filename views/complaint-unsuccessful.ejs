@@ -1,0 +1,34 @@
+<%- include("partials/header.ejs") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaint Failed</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Submission Unsuccessful</h2>
+    <p>We encountered an error while processing your complaint:</p>
+    <p style="color: #f87171;"><%= error %></p>
+    <p>Please try again later or contact support for assistance.</p>
+  </div>
+</body>
+</html>
+<%- include("partials/footer.ejs") %>

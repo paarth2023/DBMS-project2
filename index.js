@@ -135,6 +135,49 @@ passport.use(new Strategy(async function verify(username, password, cb) {
   }
   
 }));
+app.get("/submit-complaint", (req, res) => {
+  res.render("lodging.ejs", { username: req.user.p_badge });
+})
+app.post("/submit-complaint", async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect("/login"); // Ensure only logged-in users can submit complaints
+    }
+
+    const { complaint_id, address, date_of_complaint, description, status } = req.body;
+    const badge_of_assigned_police = req.user.p_badge;
+    // Store the values in the session
+    req.session.complaint = {
+      complaint_id,
+      address,
+      date_of_complaint,
+      description,
+      status,
+      badge_of_assigned_police,
+    };
+
+    // Insert the values into the database
+    await db.query(
+      "INSERT INTO complaint (placeholder, address, date_of_complaint, description, status, badge_of_assigned_police) VALUES ($1, $2, $3, $4, $5, $6)",
+      [complaint_id, address, date_of_complaint, description, status, badge_of_assigned_police]
+    );
+
+    // Redirect to a success page or display success message
+    res.redirect("/complaint-success");
+  } catch (error) {
+      console.error("Error submitting complaint:", error);
+    // Redirect to error page with error message
+      res.redirect(`/complaint-unsuccessful?error=${encodeURIComponent(error.message)}`);
+  }
+});
+app.get("/complaint-success", (req, res) => {
+  res.render("complaint-success.ejs",{username : req.user.p_badge});
+});
+app.get("/complaint-unsuccessful", (req, res) => {
+  const error = req.query.error || "Unknown error occurred.";
+  res.render("complaint-unsuccessful.ejs", { error, username:req.user.p_badge });
+});
+
 passport.serializeUser((user, cb) => {
   cb(null, user.p_badge); // Serialize only the badge number
 });
