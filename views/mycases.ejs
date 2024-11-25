@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Ongoing Cases</title>
+</head>
+<body>
+  <header>
+    <%- include("partials/header", { username: username }); %>
+  </header>
+  <main class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Ongoing Cases</h1>
+
+    <!-- Filter Form -->
+    <form action="/mycases" method="GET" class="mb-4">
+      <div class="flex flex-wrap gap-4">
+        <div>
+          <label for="status" class="block text-sm font-medium">Status</label>
+          <select name="status" id="status" class="border rounded px-2 py-1">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <div>
+          <label for="startDate" class="block text-sm font-medium">Start Date</label>
+          <input type="date" name="startDate" id="startDate" class="border rounded px-2 py-1">
+        </div>
+        <div>
+          <label for="endDate" class="block text-sm font-medium">End Date</label>
+          <input type="date" name="endDate" id="endDate" class="border rounded px-2 py-1">
+        </div>
+        <div>
+          <label for="badge" class="block text-sm font-medium">Badge</label>
+          <input type="number" name="badge" id="badge" class="border rounded px-2 py-1">
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filter</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Results Table -->
+    <table class="border-collapse w-full border border-gray-300">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border px-4 py-2">Complaint ID</th>
+          <th class="border px-4 py-2">Address</th>
+          <th class="border px-4 py-2">Date of Complaint</th>
+          <th class="border px-4 py-2">Description</th>
+          <th class="border px-4 py-2">Status</th>
+          <th class="border px-4 py-2">Assigned Police Badge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cases.forEach(caseItem => { %>
+          <tr>
+            <td class="border px-4 py-2"><%= caseItem.complaint_id %></td>
+            <td class="border px-4 py-2"><%= caseItem.address %></td>
+            <td class="border px-4 py-2"><%= caseItem.date_of_complaint %></td>
+            <td class="border px-4 py-2"><%= caseItem.description %></td>
+            <td class="border px-4 py-2"><%= caseItem.status %></td>
+            <td class="border px-4 py-2"><%= caseItem.badge_of_assigned_police %></td>
+          </tr>
+        <% }); %>
+        <% if (cases.length === 0) { %>
+          <tr>
+            <td colspan="6" class="text-center border px-4 py-2">No cases found</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

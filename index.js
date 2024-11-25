@@ -39,10 +39,31 @@ app.post("/login", passport.authenticate("local", {
   failureRedirect: "/login"
 }));
 app.get("/logout", (req, res) => {
-  res.render("homepage.ejs");
+  req.logout(err => {
+    if (err) {
+      console.error("Error logging out:", err);
+      return res.status(500).send("An error occurred while logging out.");
+    }
+
+    // Destroy the session
+    req.session.destroy(err => {
+      if (err) {
+        console.error("Error destroying session:", err);
+        return res.status(500).send("An error occurred while ending the session.");
+      }
+      
+      // Redirect to the homepage or login page
+      res.redirect("/");
+    });
+  });
 });
 app.get("/about", (req, res) => {
-  res.render("about.ejs",{username: req.user.p_badge});
+  if (req.isAuthenticated()) {
+    res.render("about.ejs",{username: req.user.p_badge});
+  }
+  else {
+    res.render("about.ejs");
+  }
 })
 app.get("/homepage", (req, res) => {
   if (req.isAuthenticated()) {
@@ -105,6 +126,43 @@ app.post("/register", async (req, res) => {
     console.log(err);
   }
 });
+app.get("/mycases", async (req, res) => {
+  try {
+    // Extract filters from the query string
+    const { status, startDate, endDate, badge } = req.query;
+
+    // Build the SQL query dynamically based on provided filters
+    let query = "SELECT * FROM complaint WHERE 1=1";
+    const queryParams = [];
+
+    if (status) {
+      query += " AND status = $1";
+      queryParams.push(status);
+    }
+    if (startDate) {
+      query += ` AND date_of_complaint >= $${queryParams.length + 1}`;
+      queryParams.push(startDate);
+    }
+    if (endDate) {
+      query += ` AND date_of_complaint <= $${queryParams.length + 1}`;
+      queryParams.push(endDate);
+    }
+    if (badge) {
+      query += ` AND badge_of_assigned_police = $${queryParams.length + 1}`;
+      queryParams.push(badge);
+    }
+
+    // Query the database
+    const result = await db.query(query, queryParams);
+
+    // Render the page with the filtered results
+    res.render("mycases.ejs", { cases: result.rows, username: req.user.p_badge });
+  } catch (error) {
+    console.error("Error fetching cases:", error);
+    res.status(500).send("An error occurred while fetching cases.");
+  }
+});
+
 
 passport.use(new Strategy(async function verify(username, password, cb) {
   try {
