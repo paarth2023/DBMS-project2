@@ -15,7 +15,7 @@ app.use(session({
     saveUninitialized: true
   })
 );
-//really important for the passport section to be below session
+
 app.use(passport.initialize());
 app.use(passport.session());
 
